@@ -22,7 +22,22 @@ const incompatibleTraitsUsed = (newTraits, incompatibleTraits) => {
         const definedIncompatibilities = traitHasDefinedIncompatibilities(newTraits[i], incompatibleTraits);
         if (definedIncompatibilities !== undefined) {
             for (let n = 0; (n < definedIncompatibilities.length); n++) {
-                const [layer, trait] = definedIncompatibilities[n].split('/');
+                const splittedIncompatibilities = definedIncompatibilities[n].split('/');
+
+                let trait;
+                let layer;
+
+                if (splittedIncompatibilities.length > 2) {
+                    trait = splittedIncompatibilities.pop();
+                    layer = splittedIncompatibilities.join('/');
+                } else {
+                    [layer, trait] = splittedIncompatibilities;
+                }
+
+                if (trait === '*' && simpleNewTraits[layer] !== undefined) {
+                    return true;
+                }
+
                 if (simpleNewTraits[layer] === trait) {
                     return true;
                 }

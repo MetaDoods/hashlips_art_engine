@@ -291,6 +291,9 @@ const startCreating = async () => {
       let loadedElements = [];
 
       results.forEach((layer) => {
+        if (layer.selectedElement === undefined) {
+          return;
+        }
         loadedElements.push(loadLayerImg(layer));
       });
 
